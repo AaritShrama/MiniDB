@@ -1,3 +1,4 @@
+
 cmake_minimum_required(VERSION 3.20)
 
 project(MiniDBMS LANGUAGES CXX)
@@ -12,6 +13,7 @@ add_executable(MiniDBMS
     src/schema.cpp
     src/table.cpp
     src/database.cpp
+    src/storage.cpp
 )
 
 target_include_directories(MiniDBMS PRIVATE include)

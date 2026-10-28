@@ -3,6 +3,7 @@
 #define MINIDB_DATABASE_H
 
 #include <cstddef>
+#include <filesystem>
 #include <map>
 #include <string>
 
@@ -21,7 +22,10 @@ public:
 
     const std::string& getName() const;
 
-    void createTable(const std::string& tableName, const Schema& schema);
+    void createTable(
+        const std::string& tableName,
+        const Schema& schema
+    );
 
     Table* getTable(const std::string& tableName);
 
@@ -30,6 +34,15 @@ public:
     bool dropTable(const std::string& tableName);
 
     std::size_t tableCount() const;
+
+    // Persistence
+    void saveToFile(
+        const std::filesystem::path& filePath
+    ) const;
+
+    static Database loadFromFile(
+        const std::filesystem::path& filePath
+    );
 };
 
 } // namespace minidb
