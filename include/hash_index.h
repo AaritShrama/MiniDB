@@ -5,6 +5,7 @@
 #include <forward_list> 
 #include <vector>
 #include <utility>
+namespace minidb {
 using namespace std ;  
 using IndexRecordId  = uint64_t ; 
 class HashIndex{
@@ -79,4 +80,5 @@ class HashIndex{
         return entryCount ; 
     }
 } ; 
+}
 #endif

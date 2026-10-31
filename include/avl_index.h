@@ -2,6 +2,7 @@
 #define MINI_AVL_INDEX_H 
 #include <cstdint> 
 #include <vector> 
+namespace minidb {
 using namespace std; 
 using AVLRecordId = uint64_t ; 
 class AVLIndex{
@@ -196,4 +197,5 @@ class AVLIndex{
            return false ; 
 } ;
 };
+}
 #endif 

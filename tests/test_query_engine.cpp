@@ -85,6 +85,58 @@ int main() {
     std::cout << "String WHERE test passed!\n";
 
     std::cout << "\nAll Query Engine tests passed!\n";
+    HashIndex ageIndex ; 
+    ageIndex.insert(20,101) ;
+    ageIndex.insert(21,102) ;
+    ageIndex.insert(20,103) ;
+    auto indexResults = QueryEngine::execute(
+        "SELECT * FROM students WHERE age = 20;",
+        table,
+        schema,
+        &ageIndex,
+        nullptr,
+        "age"
+    );
 
+    assert(indexResults.size() == 2);
+
+    std::cout << "Index-based WHERE test passed!\n";
+// Test: AVLIndex range search
+AVLIndex ageAVL;
+
+ageAVL.insert(20, 101);
+ageAVL.insert(21, 102);
+ageAVL.insert(20, 103);
+
+// Test age > 20
+auto greaterResults = QueryEngine::execute(
+    "SELECT * FROM students WHERE age > 20;",
+    table,
+    schema,
+    nullptr,
+    &ageAVL,
+    "",
+    "age"
+);
+
+assert(greaterResults.size() == 1);
+assert(greaterResults[0].getId() == 102);
+
+std::cout << "AVLIndex greater-than test passed!\n";
+
+// Test age < 21
+auto smallerResults = QueryEngine::execute(
+    "SELECT * FROM students WHERE age < 21;",
+    table,
+    schema,
+    nullptr,
+    &ageAVL,
+    "",
+    "age"
+);
+
+assert(smallerResults.size() == 2);
+
+std::cout << "AVLIndex less-than test passed!\n";
     return 0;
 }
