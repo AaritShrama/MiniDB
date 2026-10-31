@@ -1,4 +1,3 @@
-
 #ifndef MINIDB_RECORD_H
 #define MINIDB_RECORD_H
 
@@ -13,10 +12,11 @@ using RecordId = std::uint64_t;
 
 class Record {
 private:
-    RecordId recordId;
+    RecordId recordId = 0;
     std::vector<Value> values;
 
 public:
+    Record() = default;
     Record(RecordId id, const Schema& schema, std::vector<Value> recordValues);
 
     RecordId getId() const;

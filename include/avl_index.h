@@ -144,8 +144,22 @@ class AVLIndex{
   
     Node *root = nullptr ; 
 
+    void clear(Node* node) {
+        if (node == nullptr) {
+            return;
+        }
+        clear(node->left);
+        clear(node->right);
+        delete node;
+    }
+
     public:
     AVLIndex()=default  ;
+    ~AVLIndex(){
+        clear(root);
+    }
+    AVLIndex(const AVLIndex&) = delete;
+    AVLIndex& operator=(const AVLIndex&) = delete;
     void insert(int key, AVLRecordId recordId){
         root=insertNode(root,key,recordId) ;
     }

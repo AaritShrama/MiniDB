@@ -15,14 +15,22 @@ class HashIndex{
     } ;
     vector<forward_list<Entry>> buckets  ;
     size_t entryCount ; 
+    static size_t bucketIndex(int key, size_t bucketCount) {
+        const auto signedBucket = static_cast<std::int64_t>(key) %
+            static_cast<std::int64_t>(bucketCount);
+        const auto normalizedBucket = signedBucket < 0
+            ? signedBucket + static_cast<std::int64_t>(bucketCount)
+            : signedBucket;
+        return static_cast<size_t>(normalizedBucket);
+    }
     size_t hashFunction(int key )const {
-        return static_cast< size_t>(key) % buckets.size() ; 
+        return bucketIndex(key, buckets.size());
     }
     void resize(){
     vector<forward_list<Entry>> newBuckets(buckets.size()*2);
     for(const auto& bucket : buckets){
         for(const  Entry& entry :bucket){
-            size_t newBucket = static_cast<size_t>(entry.key) % newBuckets.size() ; 
+            size_t newBucket = bucketIndex(entry.key, newBuckets.size());
             newBuckets[newBucket].push_front(entry) ;
         }
     }
