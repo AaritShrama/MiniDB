@@ -13,6 +13,9 @@ public:
     void insertRecord(const Record& record) {
         records.insert_or_assign(record.getId(), record);
     }
+    bool deleteRecord(RecordId id) {
+        return records.erase(id) > 0;
+    }
     bool getRecord(RecordId id, Record& result) const override {
         auto it = records.find(id);
         if (it == records.end()) {

@@ -1,22 +1,16 @@
-
 #include "table.h"
-
 #include <cstdint>
 #include <limits>
 #include <stdexcept>
 #include <utility>
-
 namespace minidb {
-
 Table::Table(
     const std::string& tableName,
     const Schema& tableSchema
 ) : name(tableName), schema(tableSchema) {}
-
 const std::string& Table::getName() const {
     return name;
 }
-
 const Schema& Table::getSchema() const {
     return schema;
 }
@@ -97,5 +91,37 @@ bool Table::deleteRecord(RecordId id) {
 std::size_t Table::recordCount() const {
     return records.size();
 }
-
+bool Table::getRecord(RecordId id,Record& result)const{
+    const Record* record = findRecord(id) ;
+    if(record==nullptr){
+        return false ; 
+    }
+    result = *record ;
+    return true ;
+}
+std::vector<RecordId> Table::getALLRecordIds() const{
+    std::vector<RecordId> ids ; 
+    ids.reserve(records.size()) ;
+    for(const Record& record:records){
+        ids.push_back(record.getId()) ;
+    }
+    return ids ;
+}
+void Table::insertRecord(const Record& record){
+    if(record.size()!=schema.columnCount()){
+        throw std::invalid_argument("Record values do not match schema");
+    }
+    std::vector<Value> values ;
+    for(std::size_t i=0 ; i<schema.columnCount();i++){
+        values.push_back(record.getValue(i)) ;
+    }
+    for(Record& existingRecord:records){
+        if(existingRecord.getId()==record.getId()){
+            existingRecord=Record(record.getId(),schema,values) ;
+            return ;
+        }
+    }
+    restoreRecord(record.getId(),std::move(values)) ;
+}
 } // namespace minidb
+

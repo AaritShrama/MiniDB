@@ -5,9 +5,10 @@
 #include <vector>
 #include "record.h"
 #include "schema.h"
+#include "table_interface.h"
 
 namespace minidb{
-    class Table{
+    class Table : public TableInterface {
         private:
             std::string name;
             Schema schema;
@@ -24,8 +25,12 @@ namespace minidb{
             RecordId getNextRecordId() const;
             void restoreNextRecordId(RecordId nextId);
             const Record* findRecord(RecordId id) const;
-            bool deleteRecord(RecordId id);
+          
             std::size_t recordCount() const;
+            bool getRecord(RecordId id, Record& result) const override;
+            std::vector<RecordId> getALLRecordIds() const override;
+            void insertRecord(const Record& record) override;
+            bool deleteRecord(RecordId id) override;
     };
 }
 

@@ -4,6 +4,7 @@
 #include <vector>
 
 using namespace std;
+using namespace minidb;
 
 void testRecordDeletion() {
     AVLIndex index;
@@ -31,23 +32,6 @@ void testRecordDeletion() {
 
 
 int main() {
-//     AVLIndex index;
-
-//     index.insert(30, 101);
-//     index.insert(10, 102);
-//     index.insert(20, 103);
-//     index.insert(20, 104);
-
-// index.eraseKey(20);
-
-// assert(index.find(20).empty());
-
-// vector<int> remaining = index.getSortedKeys();
-// vector<int> expectedRemaining = {10, 30};
-
-// assert(remaining == expectedRemaining);
-
-// cout << "AVL key deletion test passed!\n";
-testRecordDeletion() ;
+    testRecordDeletion();
     return 0;
 }

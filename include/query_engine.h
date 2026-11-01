@@ -5,6 +5,7 @@
 #include "schema.h"
 #include "hash_index.h"
 #include "avl_index.h"
+#include "index_manager.h"
 #include <vector>
 #include <string>
 #include <stdexcept>
@@ -173,7 +174,23 @@ public:
         }
         return results ;
     }
+    static std::vector<Record> execute(
+        const std::string &sql ,
+        const TableInterface& table ,
+        const Schema& schema ,
+        const IndexManager& indexManager ){
+        return execute(
+            sql,
+            table,
+            schema,
+            indexManager.getHashIndex(),
+            indexManager.getAVLIndex(),
+            indexManager.getIndexedColumn(),
+            indexManager.getIndexedColumn() 
+        );
+    }
 };
+
 } // namespace minidb
 
 #endif

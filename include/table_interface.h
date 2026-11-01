@@ -11,6 +11,8 @@ public:
     virtual ~TableInterface() = default;
     virtual bool getRecord(RecordId id, Record& result) const = 0;
     virtual std::vector<RecordId> getALLRecordIds() const = 0;
+    virtual void insertRecord(const Record& record) = 0;
+    virtual bool deleteRecord(RecordId id) = 0;
 };
 
 } // namespace minidb
